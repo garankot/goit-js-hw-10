@@ -759,9 +759,25 @@ var global = arguments[3];
 },{}],16:[function(require,module,exports) {
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _notiflixNotifyAio = require('notiflix/build/notiflix-notify-aio');
 
-function fetchCountries(name) {}
+function fetchCountries(name) {
+  return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`).then(response => {
+    if (!response.ok) {
+      if (response.status === 404) {
+        _notiflixNotifyAio.Notify.failure('Oops, there is no country with that name');
+      }
+      throw new Error(response.statusText);
+    }
+    return response.json();
+  });
+}
+
+exports.default = { fetchCountries };
 },{"notiflix/build/notiflix-notify-aio":18}],15:[function(require,module,exports) {
 var global = arguments[3];
 /**
@@ -1149,12 +1165,12 @@ require('./css/styles.css');
 
 var _notiflixNotifyAio = require('notiflix/build/notiflix-notify-aio');
 
-require('./js/fetchCountries');
+var _fetchCountries = require('./js/fetchCountries.js');
 
-var debounce = require('lodash.debounce');
+const debounce = require('lodash.debounce');
 
 const DEBOUNCE_DELAY = 300;
-},{"./css/styles.css":6,"notiflix/build/notiflix-notify-aio":18,"./js/fetchCountries":16,"lodash.debounce":15}],13:[function(require,module,exports) {
+},{"./css/styles.css":6,"notiflix/build/notiflix-notify-aio":18,"./js/fetchCountries.js":16,"lodash.debounce":15}],13:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
