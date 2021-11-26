@@ -1167,9 +1167,19 @@ var _notiflixNotifyAio = require('notiflix/build/notiflix-notify-aio');
 
 var _fetchCountries = require('./js/fetchCountries.js');
 
+var _fetchCountries2 = _interopRequireDefault(_fetchCountries);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const debounce = require('lodash.debounce');
 
 const DEBOUNCE_DELAY = 300;
+
+const input = document.querySelector('#search-box');
+const countryList = document.querySelector('.country-list');
+const countryInfo = document.querySelector('.country-info');
+
+input.addEventListener('input', debounce(Event, DEBOUNCE_DELAY));
 },{"./css/styles.css":6,"notiflix/build/notiflix-notify-aio":18,"./js/fetchCountries.js":16,"lodash.debounce":15}],9:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1199,7 +1209,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '55894' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '50716' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
