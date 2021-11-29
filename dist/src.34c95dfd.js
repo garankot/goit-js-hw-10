@@ -1158,7 +1158,7 @@ function toNumber(value) {
 
 module.exports = debounce;
 
-},{}],4:[function(require,module,exports) {
+},{}],2:[function(require,module,exports) {
 'use strict';
 
 require('./css/styles.css');
@@ -1179,7 +1179,64 @@ const input = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-input.addEventListener('input', debounce(Event, DEBOUNCE_DELAY));
+input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+
+function onInput() {
+  if (!input.value.trim('')) {
+    return;
+  }
+
+  _fetchCountries2.default.fetchCountries(input.value.trim('')).then(userInputData).catch(error => {
+    console.log(error);
+  });
+}
+
+function userInputData(countries) {
+  countriesInfo();
+
+  if (countries.length > 10) {
+    _notiflixNotifyAio.Notify.info('Too many matches found. Please enter a more specific name.');
+  }
+  if (countries.length >= 2 && countries.length < 10) {
+    countries.map(country => {
+      countriesRender(country);
+    }).join();
+  }
+  if (countries.length === 1) {
+    countries.map(country => {
+      countryRender(country);
+    }).join();
+  }
+}
+
+function countriesRender({ name, flags }) {
+  countryList.insertAdjacentHTML('beforeend', `<li class ="list">
+    <h2><img class = "flag" src="${flags.svg}">
+     <span class="data">${name.official}</span></h2>
+    </li>`);
+}
+
+function countryRender({ name, capital, population, languages, flags }) {
+  countryInfo.insertAdjacentHTML('beforeend', `<ul>
+            <li class ="list">
+            <h2><img class = "flag" src="${flags.svg}">
+             <span class="data name">${name.official}</span></h2>
+            </li>
+            <li class = "list">
+                <h2>Capital: <span class="data">${capital}</span></h2>
+            </li>
+            <li class = "list">
+                <h2>Population: <span class="data">${population}</span></h2>
+            </li>
+            <li class = "list">
+               <h2>Languages: <span class="data">${Object.values(languages)}</span></h2>
+            </li>
+         </ul>`);
+}
+function countriesInfo() {
+  countryList.innerHTML = '';
+  countryInfo.innerHTML = '';
+}
 },{"./css/styles.css":6,"notiflix/build/notiflix-notify-aio":18,"./js/fetchCountries.js":16,"lodash.debounce":15}],9:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1209,7 +1266,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '50716' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '65314' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -1350,5 +1407,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[9,4], null)
+},{}]},{},[9,2], null)
 //# sourceMappingURL=/src.34c95dfd.map
